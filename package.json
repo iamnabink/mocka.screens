@@ -1,0 +1,90 @@
+{
+  "name": "mocka.screens",
+  "version": "1.1.1",
+  "description": "mocka.screens: A store Screenshot/Video Generator - Create beautiful App Store marketing screenshots",
+  "main": "electron/main.js",
+  "author": {
+    "name": "iamnabink",
+    "email": "nabrajkhadka43@gmail.com",
+    "url": "https://iamnabink.github.io/mocka.screens/"
+  },
+  "license": "Copyright (c) 2026 mocka.screens",
+  "homepage": "https://iamnabink.github.io/mocka.screens/",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/iamnabink/mocka.screens"
+  },
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --dev",
+    "build": "electron-builder",
+    "build:mac": "electron-builder --mac",
+    "build:win": "electron-builder --win",
+    "build:linux": "electron-builder --linux",
+    "generate:macos-icon": "bash scripts/generate-macos-icon.sh",
+    "serve": "python3 -m http.server 8000"
+  },
+  "devDependencies": {
+    "electron": "^28.0.0",
+    "electron-builder": "^24.9.1"
+  },
+  "build": {
+    "appId": "com.whoamie.mocka.screens",
+    "productName": "mocka.screens",
+    "directories": {
+      "output": "dist"
+    },
+    "files": [
+      "**/*",
+      "!dist/**",
+      "!.git/**",
+      "!.gitignore",
+      "!.claude/**",
+      "!*.md",
+      "!.DS_Store"
+    ],
+    "mac": {
+      "category": "public.app-category.graphics-design",
+      "icon": "img/icon.icns",
+      "extendInfo": {
+        "CFBundleName": "mocka.screens",
+        "CFBundleDisplayName": "mocka.screens"
+      },
+      "target": [
+        "dmg",
+        "zip"
+      ]
+    },
+    "win": {
+      "icon": "img/icon.ico",
+      "target": [
+        "nsis",
+        "portable"
+      ]
+    },
+    "linux": {
+      "icon": "img/icon.png",
+      "executableName": "mocka.screens",
+      "target": [
+        "AppImage",
+        "deb"
+      ],
+      "category": "Graphics"
+    },
+    "dmg": {
+      "title": "${productName}",
+      "contents": [
+        {
+          "x": 130,
+          "y": 220
+        },
+        {
+          "x": 410,
+          "y": 220,
+          "type": "link",
+          "path": "/Applications"
+        }
+      ]
+    }
+  }
+}

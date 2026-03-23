@@ -1,0 +1,458 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="UTF-8">
+    <title>Preferences</title>
+    <style>
+        * { margin: 0; padding: 0; box-sizing: border-box; }
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+            background: #141416;
+            color: #e0e0e0;
+            padding: 24px;
+            -webkit-user-select: none;
+            user-select: none;
+        }
+        h1 {
+            font-size: 18px;
+            font-weight: 600;
+            margin-bottom: 20px;
+            color: #fff;
+        }
+        .section {
+            margin-bottom: 24px;
+        }
+        .section-title {
+            font-size: 13px;
+            font-weight: 600;
+            color: #a1a1a6;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+            margin-bottom: 12px;
+            display: flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .section-title svg {
+            opacity: 0.7;
+        }
+        .description {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 12px;
+            line-height: 1.5;
+        }
+        .provider-options {
+            display: flex;
+            flex-direction: column;
+            gap: 8px;
+            margin-bottom: 16px;
+        }
+        .provider-option {
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 10px 12px;
+            background: #1c1c1f;
+            border: 1px solid #2a2a2e;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .provider-option:hover {
+            border-color: #3a3a3e;
+        }
+        .provider-option.selected {
+            border-color: #0a84ff;
+            background: rgba(10, 132, 255, 0.1);
+        }
+        .provider-option input {
+            display: none;
+        }
+        .provider-radio {
+            width: 16px;
+            height: 16px;
+            border: 2px solid #555;
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.15s ease;
+        }
+        .provider-option.selected .provider-radio {
+            border-color: #0a84ff;
+        }
+        .provider-radio::after {
+            content: '';
+            width: 8px;
+            height: 8px;
+            background: #0a84ff;
+            border-radius: 50%;
+            opacity: 0;
+            transition: opacity 0.15s ease;
+        }
+        .provider-option.selected .provider-radio::after {
+            opacity: 1;
+        }
+        .provider-name {
+            font-size: 13px;
+            color: #fff;
+        }
+        .api-section {
+            display: none;
+            animation: fadeIn 0.2s ease;
+        }
+        .api-section.visible {
+            display: block;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(-5px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+        .input-group {
+            display: flex;
+            gap: 8px;
+            margin-bottom: 8px;
+        }
+        .input-group input {
+            flex: 1;
+            padding: 10px 12px;
+            background: #1c1c1f;
+            border: 1px solid #2a2a2e;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 13px;
+            font-family: 'SF Mono', Monaco, monospace;
+            outline: none;
+            transition: border-color 0.15s ease;
+        }
+        .input-group input:focus {
+            border-color: #0a84ff;
+        }
+        .input-group input::placeholder {
+            color: #555;
+        }
+        .show-key-btn {
+            padding: 10px 12px;
+            background: #1c1c1f;
+            border: 1px solid #2a2a2e;
+            border-radius: 8px;
+            color: #888;
+            cursor: pointer;
+            transition: all 0.15s ease;
+        }
+        .show-key-btn:hover {
+            background: #252528;
+            color: #fff;
+        }
+        .external-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            font-size: 12px;
+            color: #0a84ff;
+            text-decoration: none;
+            margin-top: 8px;
+        }
+        .external-link:hover {
+            text-decoration: underline;
+        }
+        .model-group {
+            margin-top: 12px;
+        }
+        .model-label {
+            font-size: 12px;
+            color: #888;
+            margin-bottom: 6px;
+            display: block;
+        }
+        .model-select {
+            width: 100%;
+            padding: 10px 12px;
+            background: #1c1c1f;
+            border: 1px solid #2a2a2e;
+            border-radius: 8px;
+            color: #fff;
+            font-size: 13px;
+            outline: none;
+            cursor: pointer;
+            transition: border-color 0.15s ease;
+            -webkit-appearance: none;
+            appearance: none;
+            background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='12' viewBox='0 0 24 24' fill='none' stroke='%23888' stroke-width='2'%3E%3Cpath d='M6 9l6 6 6-6'/%3E%3C/svg%3E");
+            background-repeat: no-repeat;
+            background-position: right 12px center;
+            padding-right: 36px;
+        }
+        .model-select:focus {
+            border-color: #0a84ff;
+        }
+        .status {
+            font-size: 11px;
+            margin-top: 6px;
+            padding: 6px 10px;
+            border-radius: 6px;
+            display: none;
+        }
+        .status.saved {
+            display: block;
+            background: rgba(52, 199, 89, 0.15);
+            color: #34c759;
+        }
+        .footer {
+            position: fixed;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 16px 24px;
+            background: #141416;
+            border-top: 1px solid #2a2a2e;
+            display: flex;
+            justify-content: flex-end;
+        }
+        .save-btn {
+            padding: 8px 20px;
+            background: #0a84ff;
+            border: none;
+            border-radius: 6px;
+            color: #fff;
+            font-size: 13px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background 0.15s ease;
+        }
+        .save-btn:hover {
+            background: #409cff;
+        }
+        .save-btn:disabled {
+            background: #555;
+            cursor: not-allowed;
+        }
+    </style>
+</head>
+<body>
+    <h1>Preferences</h1>
+
+    <div class="section">
+        <div class="section-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+            </svg>
+            AI Translation Provider
+        </div>
+        <p class="description">Choose which AI provider to use for text translations. API keys are stored locally.</p>
+
+        <div class="provider-options">
+            <label class="provider-option selected" data-provider="anthropic">
+                <input type="radio" name="provider" value="anthropic" checked>
+                <div class="provider-radio"></div>
+                <span class="provider-name">Anthropic (Claude)</span>
+            </label>
+            <label class="provider-option" data-provider="openai">
+                <input type="radio" name="provider" value="openai">
+                <div class="provider-radio"></div>
+                <span class="provider-name">OpenAI (GPT)</span>
+            </label>
+            <label class="provider-option" data-provider="google">
+                <input type="radio" name="provider" value="google">
+                <div class="provider-radio"></div>
+                <span class="provider-name">Google (Gemini)</span>
+            </label>
+        </div>
+    </div>
+
+    <div class="section api-section visible" id="section-anthropic">
+        <div class="section-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+            </svg>
+            Claude API Key
+        </div>
+        <div class="input-group">
+            <input type="password" id="key-anthropic" placeholder="sk-ant-api03-...">
+            <button class="show-key-btn" data-target="key-anthropic">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                </svg>
+            </button>
+        </div>
+        <div class="model-group">
+            <label class="model-label">Model</label>
+            <select class="model-select" id="model-anthropic">
+                <!-- Populated dynamically from llm.js -->
+            </select>
+        </div>
+        <a href="https://console.anthropic.com/settings/keys" target="_blank" class="external-link">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>
+            </svg>
+            Get your API key from Anthropic Console
+        </a>
+    </div>
+
+    <div class="section api-section" id="section-openai">
+        <div class="section-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+            </svg>
+            OpenAI API Key
+        </div>
+        <div class="input-group">
+            <input type="password" id="key-openai" placeholder="sk-...">
+            <button class="show-key-btn" data-target="key-openai">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                </svg>
+            </button>
+        </div>
+        <div class="model-group">
+            <label class="model-label">Model</label>
+            <select class="model-select" id="model-openai">
+                <!-- Populated dynamically from llm.js -->
+            </select>
+        </div>
+        <a href="https://platform.openai.com/api-keys" target="_blank" class="external-link">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>
+            </svg>
+            Get your API key from OpenAI Platform
+        </a>
+    </div>
+
+    <div class="section api-section" id="section-google">
+        <div class="section-title">
+            <svg width="14" height="14" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M21 2l-2 2m-7.61 7.61a5.5 5.5 0 1 1-7.778 7.778 5.5 5.5 0 0 1 7.777-7.777zm0 0L15.5 7.5m0 0l3 3L22 7l-3-3m-3.5 3.5L19 4"/>
+            </svg>
+            Google AI API Key
+        </div>
+        <div class="input-group">
+            <input type="password" id="key-google" placeholder="AIza...">
+            <button class="show-key-btn" data-target="key-google">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"/>
+                    <circle cx="12" cy="12" r="3"/>
+                </svg>
+            </button>
+        </div>
+        <div class="model-group">
+            <label class="model-label">Model</label>
+            <select class="model-select" id="model-google">
+                <!-- Populated dynamically from llm.js -->
+            </select>
+        </div>
+        <a href="https://aistudio.google.com/app/apikey" target="_blank" class="external-link">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                <path d="M18 13v6a2 2 0 01-2 2H5a2 2 0 01-2-2V8a2 2 0 012-2h6M15 3h6v6M10 14L21 3"/>
+            </svg>
+            Get your API key from Google AI Studio
+        </a>
+    </div>
+
+    <div class="status" id="save-status">Settings saved</div>
+
+    <div class="footer">
+        <button class="save-btn" id="save-btn">Save</button>
+    </div>
+
+    <script>
+        let currentProvider = 'anthropic';
+        let llmProviders = null;
+
+        // Provider selection
+        document.querySelectorAll('.provider-option').forEach(option => {
+            option.addEventListener('click', () => {
+                document.querySelectorAll('.provider-option').forEach(o => o.classList.remove('selected'));
+                option.classList.add('selected');
+                option.querySelector('input').checked = true;
+                currentProvider = option.dataset.provider;
+
+                // Show/hide API sections
+                document.querySelectorAll('.api-section').forEach(s => s.classList.remove('visible'));
+                document.getElementById('section-' + currentProvider).classList.add('visible');
+            });
+        });
+
+        // Show/hide password
+        document.querySelectorAll('.show-key-btn').forEach(btn => {
+            btn.addEventListener('click', () => {
+                const input = document.getElementById(btn.dataset.target);
+                input.type = input.type === 'password' ? 'text' : 'password';
+            });
+        });
+
+        // Populate model dropdowns from llmProviders config
+        function populateModelDropdowns() {
+            if (!llmProviders) return;
+
+            Object.entries(llmProviders).forEach(([provider, config]) => {
+                const select = document.getElementById(`model-${provider}`);
+                if (select && config.models) {
+                    select.innerHTML = config.models.map(model =>
+                        `<option value="${model.id}">${model.name}</option>`
+                    ).join('');
+                }
+            });
+        }
+
+        // Load settings
+        async function loadSettings() {
+            // First, get LLM providers config
+            llmProviders = await window.preferencesAPI.getLLMProviders();
+            populateModelDropdowns();
+
+            const settings = await window.preferencesAPI.getSettings();
+
+            currentProvider = settings.provider;
+            document.querySelectorAll('.provider-option').forEach(o => {
+                o.classList.toggle('selected', o.dataset.provider === currentProvider);
+                o.querySelector('input').checked = o.dataset.provider === currentProvider;
+            });
+
+            document.querySelectorAll('.api-section').forEach(s => s.classList.remove('visible'));
+            document.getElementById('section-' + currentProvider).classList.add('visible');
+
+            document.getElementById('key-anthropic').value = settings.anthropicKey;
+            document.getElementById('key-openai').value = settings.openaiKey;
+            document.getElementById('key-google').value = settings.googleKey;
+
+            // Load model selections
+            if (settings.anthropicModel) {
+                document.getElementById('model-anthropic').value = settings.anthropicModel;
+            }
+            if (settings.openaiModel) {
+                document.getElementById('model-openai').value = settings.openaiModel;
+            }
+            if (settings.googleModel) {
+                document.getElementById('model-google').value = settings.googleModel;
+            }
+        }
+
+        // Save settings
+        document.getElementById('save-btn').addEventListener('click', async () => {
+            const settings = {
+                provider: currentProvider,
+                anthropicKey: document.getElementById('key-anthropic').value,
+                openaiKey: document.getElementById('key-openai').value,
+                googleKey: document.getElementById('key-google').value,
+                anthropicModel: document.getElementById('model-anthropic').value,
+                openaiModel: document.getElementById('model-openai').value,
+                googleModel: document.getElementById('model-google').value
+            };
+
+            const result = await window.preferencesAPI.saveSettings(settings);
+
+            if (result.success) {
+                const status = document.getElementById('save-status');
+                status.classList.add('saved');
+                setTimeout(() => status.classList.remove('saved'), 2000);
+            }
+        });
+
+        // Load on startup
+        loadSettings();
+    </script>
+</body>
+</html>

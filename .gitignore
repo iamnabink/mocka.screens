@@ -1,0 +1,21 @@
+# macOS
+.DS_Store
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# Node
+node_modules/
+
+# Electron build output
+dist/
+out/
+*.dmg
+*.exe
+*.AppImage
+*.deb
+*.snap
+/whoamie-releases
