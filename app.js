@@ -2141,19 +2141,26 @@ function setupEventListeners() {
     });
 
     // About modal
-    document.getElementById('about-btn').addEventListener('click', () => {
-        document.getElementById('about-modal').classList.add('visible');
-    });
-
-    document.getElementById('about-modal-close').addEventListener('click', () => {
-        document.getElementById('about-modal').classList.remove('visible');
-    });
-
-    document.getElementById('about-modal').addEventListener('click', (e) => {
-        if (e.target.id === 'about-modal') {
-            document.getElementById('about-modal').classList.remove('visible');
-        }
-    });
+    const aboutBtn = document.getElementById('about-btn');
+    const aboutModal = document.getElementById('about-modal');
+    const aboutModalClose = document.getElementById('about-modal-close');
+    if (aboutBtn && aboutModal) {
+        aboutBtn.addEventListener('click', () => {
+            aboutModal.classList.add('visible');
+        });
+    }
+    if (aboutModalClose && aboutModal) {
+        aboutModalClose.addEventListener('click', () => {
+            aboutModal.classList.remove('visible');
+        });
+    }
+    if (aboutModal) {
+        aboutModal.addEventListener('click', (e) => {
+            if (e.target.id === 'about-modal') {
+                aboutModal.classList.remove('visible');
+            }
+        });
+    }
 
     // Developer info modal (opened from About)
     document.getElementById('developer-info-btn').addEventListener('click', () => {
