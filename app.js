@@ -2160,9 +2160,12 @@ function setupEventListeners() {
         document.getElementById('developer-info-modal').classList.add('visible');
     });
 
-    document.getElementById('developer-info-footer-btn').addEventListener('click', () => {
-        document.getElementById('developer-info-modal').classList.add('visible');
-    });
+    const developerInfoFooterBtn = document.getElementById('developer-info-footer-btn');
+    if (developerInfoFooterBtn) {
+        developerInfoFooterBtn.addEventListener('click', () => {
+            document.getElementById('developer-info-modal').classList.add('visible');
+        });
+    }
 
     document.getElementById('developer-info-modal-close').addEventListener('click', () => {
         document.getElementById('developer-info-modal').classList.remove('visible');

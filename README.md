@@ -115,26 +115,6 @@ Your API key is stored locally in your browser and only sent to the respective A
 - Google Fonts API for font picker
 - Claude/OpenAI/Google APIs for translations
 
-## Apps Using This Project
-
-Built something with this tool? Add your app to the list by submitting a pull request!
-
-| App | Description | Link |
-|-----|-------------|------|
-| Cable | Manage your 12V systems like Boats and RVs | [cable.iamnabink.com](https://cable.iamnabink.com) |
-| Eno | Wine pairings and food pairings made easy | [eno.iamnabink.com](https://eno.iamnabink.com) |
-| TravelRates Currency Converter* | Exchange Rates for Travelers | [apple.com](https://apps.apple.com/sg/app/travelrates-currency-converter/id6756080378) |
-| *Your app here* | *Submit a PR to add your app* | *Your app link* |
-
 ## License
 
 MIT License - feel free to use, modify, and distribute.
-
-## Credits
-- **Samsung Galaxy S25 Ultra 3D Model** by [mistJS](https://sketchfab.com/mistjs) - Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
-
-- **iPhone 15 Pro Max 3D Model** by [MajdyModels](https://sketchfab.com/majdymodels) - Licensed under [CC BY 4.0](https://creativecommons.org/licenses/by/4.0/)
-
-## Author
-
-Proudly vibe coded by [Stefan from iamnabink.com](https://iamnabink.github.io/mocka.screens/)
